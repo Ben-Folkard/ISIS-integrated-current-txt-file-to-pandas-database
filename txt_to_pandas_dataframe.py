@@ -3,15 +3,11 @@ from numpy import isclose
 import matplotlib.pyplot as plt
 import os
 
-# GitHub Action for testing
-# Black or Flake8 tools pep8 (done)
-# automatic documentation (read the docs)
-
 
 def text_to_pandas_dataframe(file):
     """
     Grabs the data from the a given beam integrated
-    current log file and adds it to a pandas dataframe
+    current log file and converts it to a pandas dataframe
     """
     data = pd.read_csv(
         file,
@@ -33,13 +29,11 @@ def text_to_pandas_dataframe(file):
     return data
 
 
-# class Integrity_Checks(unittest.TestCase)
-
-
 def find_decreasing_value(data, column):
     """
     Locates where a given column has values that decrease
     """
+    
     prev_value = 0
     found = False
     for i, value in enumerate(data[column].values):
@@ -93,6 +87,7 @@ def get_sliced_data(data, start_date, end_date, frequency="Daily", is_averaged=F
     """
     start_date = pd.to_datetime(start_date)
     end_date = pd.to_datetime(end_date)
+    
     if start_date not in data["Date"].values:
         print("Invalid start_date")
         return None
@@ -105,6 +100,7 @@ def get_sliced_data(data, start_date, end_date, frequency="Daily", is_averaged=F
     end_index = data.index[data["Date"] == end_date].values[0]
 
     if end_index < start_index:
+        
         print("end_date can not be before start_date")
         return None
 
@@ -151,18 +147,21 @@ def get_integrated_current(data, start_date, end_date=None, target="TS-1", valid
     Gets the integrated current hitting a given target
     for either a given date or range of dates
     """
-    if target not in valid_targets:
+    if target not in valid_targets
+                               :
         print("Invalid target")
         return None
     if end_date is None:
         start_date = pd.to_datetime(start_date)
         if start_date not in data["Date"].values:
+            
             print("Invalid start_date")
             return None
         # Returns the integrated current for a given date
         return data[data["Date"] == start_date][f"Milliamp-hours ({target})"].values[0]
     else:
         if target not in valid_targets:
+            
             print("Invalid target")
             return None
 
@@ -194,6 +193,7 @@ def plot_integrated_current(data, start_date, end_date, target="TS-1", valid_tar
     """
     Plots the integrated current over a range of dates
     """
+                                
     if target not in valid_targets:
         print("Invalid target")
         return None
@@ -235,11 +235,13 @@ def plot_integrated_current(data, start_date, end_date, target="TS-1", valid_tar
     else:
         plt.ylabel(f"{target} {frequency} Integrated Current (Milliamp-hours)")
         if file_name is None:
+            
             file_name = f"graphs/{target}_{start_date}_to_{end_date}_{frequency}_Integrated_Currents.png"
 
     plt.plot(dates, integrated_currents, ":o")
 
     if not os.path.isdir("graphs"):
+        
         os.mkdir("graphs")
 
     if is_saved:
@@ -266,6 +268,7 @@ def get_num_protons(
     """
     Returns a list of the number of protons per specified amount of time (need to double check)
     """
+    
     proton_charge = 1.6e-19
     integrated_current = get_integrated_current(
         data,
@@ -291,6 +294,7 @@ def get_average_power(data, start_date, end_date=None, target="TS-1", valid_targ
 
     # Default: MeV -> J
     voltage *= voltage_unit_factor
+                          
 
     # Default: mAh -> A
     integrated_current = current_unit_factor * get_integrated_current(
@@ -350,3 +354,5 @@ if __name__ == "__main__":
     print(get_average_power(data, start_date, end_date, is_summed=True))
 
     print("Done")
+
+
