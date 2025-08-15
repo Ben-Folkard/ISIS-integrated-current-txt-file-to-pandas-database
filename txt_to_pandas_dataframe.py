@@ -3,15 +3,11 @@ from numpy import isclose
 import matplotlib.pyplot as plt
 import os
 
-# GitHub Action for testing
-# Black or Flake8 tools pep8 (done)
-# automatic documentation (read the docs)
-
 
 def text_to_pandas_dataframe(file):
     """
     Grabs the data from the a given beam integrated
-    current log file and adds it to a pandas dataframe
+    current log file and converts it to a pandas dataframe
     """
     data = pd.read_csv(
         file,
@@ -31,9 +27,6 @@ def text_to_pandas_dataframe(file):
     )
     data["Date"] = pd.to_datetime(data["Date"])
     return data
-
-
-# class Integrity_Checks(unittest.TestCase)
 
 
 def find_decreasing_value(data, column):
@@ -350,3 +343,4 @@ if __name__ == "__main__":
     print(get_average_power(data, start_date, end_date, is_summed=True))
 
     print("Done")
+
